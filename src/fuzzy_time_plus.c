@@ -43,7 +43,7 @@ TextLine line3;
 static TheTime cur_time;
 static TheTime new_time;
 
-const int FW = %W + 26;
+const int F_W = 1;
 
 static char str_topbar[LINE_BUFFER_SIZE];
 static char str_bottombar[LINE_BUFFER_SIZE];
@@ -171,10 +171,9 @@ void updateLayer(TextLine *animating_line, int line) {
 
 void update_watch(PblTm* t) {
   //Let's get the new time and date
-  %FW = %W + 26;
   fuzzy_time(t->tm_hour, t->tm_min, new_time.line1, new_time.line2, new_time.line3);
   string_format_time(str_topbar, sizeof(str_topbar), "%A | %e %b", t);
-  string_format_time(str_bottombar, sizeof(str_bottombar), " FW %FW | Week %W", t);
+  string_format_time(str_bottombar, sizeof(str_bottombar), " FW %F_W | Week %W", t);
   
   //Let's update the top and bottom bar anyway - **to optimize later to only update top bar every new day.
   text_layer_set_text(&topbarLayer, str_topbar);
@@ -216,10 +215,9 @@ void update_watch(PblTm* t) {
 }
 
 void init_watch(PblTm* t) {
-  %FW = %W + 26;
   fuzzy_time(t->tm_hour, t->tm_min, new_time.line1, new_time.line2, new_time.line3);
   string_format_time(str_topbar, sizeof(str_topbar), "%A | %e %b", t);
-  string_format_time(str_bottombar, sizeof(str_bottombar), " FW %FW | Week %W", t);
+  string_format_time(str_bottombar, sizeof(str_bottombar), " FW %F_W | Week %W", t);
   
   text_layer_set_text(&topbarLayer, str_topbar);
   text_layer_set_text(&bottombarLayer, str_bottombar);
