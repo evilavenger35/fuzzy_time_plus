@@ -43,7 +43,6 @@ TextLine line3;
 static TheTime cur_time;
 static TheTime new_time;
 
-static int F_W = 1;
 
 static char str_topbar[LINE_BUFFER_SIZE];
 static char str_bottombar[LINE_BUFFER_SIZE];
@@ -174,10 +173,10 @@ void update_watch(PblTm* t) {
   fuzzy_time(t->tm_hour, t->tm_min, new_time.line1, new_time.line2, new_time.line3);
   string_format_time(str_topbar, sizeof(str_topbar), "%A | %e %b", t);
   string_format_time(str_bottombar, sizeof(str_bottombar), "Week %W", t);
-  F_W = %W + 26 
+  INT F_W = %W + 26 
   //Let's update the top and bottom bar anyway - **to optimize later to only update top bar every new day.
   text_layer_set_text(&topbarLayer, str_topbar);
-  text_layer_set_text(&bottombarLayer, str_bottombar "Fiscal" F_W);
+  text_layer_set_text(&bottombarLayer, str_bottombar&"Fiscal"&F_W);
   
   if(t->tm_min == 0){
     vibes_short_pulse();
@@ -218,7 +217,7 @@ void init_watch(PblTm* t) {
   fuzzy_time(t->tm_hour, t->tm_min, new_time.line1, new_time.line2, new_time.line3);
   string_format_time(str_topbar, sizeof(str_topbar), "%A | %e %b", t);
   string_format_time(str_bottombar, sizeof(str_bottombar), "Week %W", t);
-  
+  INT F_W = %W + 26
   text_layer_set_text(&topbarLayer, str_topbar);
   text_layer_set_text(&bottombarLayer, str_bottombar "Fiscal" F_W);
 
