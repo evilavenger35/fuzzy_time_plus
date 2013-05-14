@@ -43,6 +43,8 @@ TextLine line3;
 static TheTime cur_time;
 static TheTime new_time;
 
+const int FW = %W + 26;
+
 static char str_topbar[LINE_BUFFER_SIZE];
 static char str_bottombar[LINE_BUFFER_SIZE];
 static bool busy_animating_in = false;
@@ -169,9 +171,10 @@ void updateLayer(TextLine *animating_line, int line) {
 
 void update_watch(PblTm* t) {
   //Let's get the new time and date
+  FW = %W + 26;
   fuzzy_time(t->tm_hour, t->tm_min, new_time.line1, new_time.line2, new_time.line3);
   string_format_time(str_topbar, sizeof(str_topbar), "%A | %e %b", t);
-  string_format_time(str_bottombar, sizeof(str_bottombar), " FW (%W+26) | Week %W", t);
+  string_format_time(str_bottombar, sizeof(str_bottombar), " FW %FW | Week %W", t);
   
   //Let's update the top and bottom bar anyway - **to optimize later to only update top bar every new day.
   text_layer_set_text(&topbarLayer, str_topbar);
@@ -213,9 +216,10 @@ void update_watch(PblTm* t) {
 }
 
 void init_watch(PblTm* t) {
+  FW = %W + 26;
   fuzzy_time(t->tm_hour, t->tm_min, new_time.line1, new_time.line2, new_time.line3);
   string_format_time(str_topbar, sizeof(str_topbar), "%A | %e %b", t);
-  string_format_time(str_bottombar, sizeof(str_bottombar), " FW (%W+26) | Week %W", t);
+  string_format_time(str_bottombar, sizeof(str_bottombar), " FW %FW | Week %W", t);
   
   text_layer_set_text(&topbarLayer, str_topbar);
   text_layer_set_text(&bottombarLayer, str_bottombar);
@@ -302,7 +306,7 @@ void handle_init_app(AppContextRef app_ctx) {
   text_layer_init(&topbarLayer, GRect(0, 0, 144, 18));
   text_layer_set_text_color(&topbarLayer, GColorWhite);
   text_layer_set_background_color(&topbarLayer, GColorBlack);
-  text_layer_set_font(&topbarLayer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_font(&topbarLayer, fonts_get_system_font(FONT_KEY_GOTHIC_20));
   text_layer_set_text_alignment(&topbarLayer, GTextAlignmentCenter);
 
   // day24week
